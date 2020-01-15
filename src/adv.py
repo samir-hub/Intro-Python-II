@@ -56,7 +56,7 @@ def adv_game():
             print("Please enter a cardinal direction.")    
             continue
         if direction == 'n':
-            new_player = Player("Samir", "foyer")
+            new_player.current_room = 'foyer'
             print(new_player)
             print(room['outside'].n_to)
         elif direction == 'q':
@@ -73,21 +73,59 @@ def adv_game():
             print("Please enter a cardinal direction.")    
             continue
         if direction == 'n':
-            new_player = Player("Samir", "overlook")
+            new_player.current_room = 'overlook'
             print(new_player)
             print(room['foyer'].n_to)
         elif direction == 's':
-            new_player = Player("Samir", "outside")
+            new_player.current_room = 'outside'
             print(new_player)
             print(room['foyer'].s_to) 
         elif direction == 'e':
-            new_player = Player("Samir", "narrow")
+            new_player.current_room = 'narrow'
             print(new_player)
             print(room['foyer'].e_to)        
         elif direction == 'q':
             break
         else:    
-            print("You hit a wall.")        
+            print("You hit a wall.") 
+
+    while direction == 'n': 
+        direction = input("Where to? ")
+
+        try:
+            direction = str(direction)
+        except ValueError:
+            print("Please enter a cardinal direction.")    
+            continue
+        if direction == 's':
+            new_player.current_room = 'foyer'
+            print(new_player)
+            print(room['overlook'].s_to)
+        elif direction == 'q':
+            break
+        else:    
+            print("You hit a wall.")  
+
+    while direction == 'e': 
+        direction = input("Where to? ")
+
+        try:
+            direction = str(direction)
+        except ValueError:
+            print("Please enter a cardinal direction.")    
+            continue
+        if direction == 'w':
+            new_player.current_room = 'foyer'
+            print(new_player)
+            print(room['narrow'].w_to)
+        elif direction == 'n':
+            new_player.current_room = 'treasure'
+            print(new_player)
+            print(room['narrow'].n_to)     
+        elif direction == 'q':
+            break
+        else:    
+            print("You hit a wall.")                       
 
 if __name__ == '__main__':
     adv_game()              
