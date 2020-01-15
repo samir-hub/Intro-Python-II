@@ -1,21 +1,22 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", "foyer", None, None, None),
+                     "North of you, the cave mount beckons", "foyer", None, None, None, [Item('hammer', 'a tool to build'), Item('flashlight', 'a tool to improve visibility')]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""", "overlook", "outside", "narrow", None),
+passages run north and east.""", "overlook", "outside", "narrow", None, [Item('shovel', 'a tool to dig'), Item('wheelbarrow', 'a tool to move large objects')]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""", None, "foyer", None, None),
+the distance, but there is no way across the chasm.""", None, "foyer", None, None, [Item('phone', 'a tool to communicate')]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""", "treasure", None, None, "foyer"),
+to north. The smell of gold permeates the air.""", "treasure", None, None, "foyer", [Item('pen', 'a tool to write stuff')]),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
