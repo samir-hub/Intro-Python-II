@@ -2,21 +2,26 @@ from room import Room
 from player import Player
 from item import Item
 
+outside_items = [Item('pen', 'tool to write')]
+foyer_items = [Item('shovel', 'a tool to dig'), Item('wheelbarrow', 'a tool to move large objects')]
+overlook_items = [Item('phone', 'a tool to communicate')]
+narrow_items = [Item('hammer', 'a tool to build'), Item('flashlight', 'a tool to improve visibility')]
+
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", "foyer", None, None, None, [Item('hammer', 'a tool to build'), Item('flashlight', 'a tool to improve visibility')]),
+                     "North of you, the cave mount beckons", "foyer", None, None, None, outside_items),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
-passages run north and east.""", "overlook", "outside", "narrow", None, [Item('shovel', 'a tool to dig'), Item('wheelbarrow', 'a tool to move large objects')]),
+passages run north and east.""", "overlook", "outside", "narrow", None, foyer_items),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""", None, "foyer", None, None, [Item('phone', 'a tool to communicate')]),
+the distance, but there is no way across the chasm.""", None, "foyer", None, None, overlook_items),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""", "treasure", None, None, "foyer", [Item('pen', 'a tool to write stuff')]),
+to north. The smell of gold permeates the air.""", "treasure", None, None, "foyer", narrow_items),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
@@ -44,86 +49,81 @@ def adv_game():
 
 # Make a new player object that is currently in the 'outside' room.
     new_player = Player("Samir", "outside")
-    direction = 's'
+    player_input = ''
     print(new_player)
     print(room['outside'])
 # Write a loop that:
-    while direction == 's': 
-        direction = input("Where to? ")
-
-        try:
-            direction = str(direction)
-        except ValueError:
-            print("Please enter a cardinal direction.")    
-            continue
-        if direction == 'n':
+    while True: 
+        player_input = input("Enter a direction or an action: ")
+ 
+        if player_input == 'get items':
+            new_player.items = room['outside'].items
+            print(new_player)
+            outside_items[0].on_take()
+            player_input = input("Enter a direction or an action: ")
+           
+        if player_input == 'n':
             new_player.current_room = 'foyer'
             print(new_player)
             print(room['outside'].n_to)
-        elif direction == 'q':
+        elif player_input == 'q':
             break
         else:    
             print("You hit a wall.")  
 
-    while direction == 'n':
-        direction = input("Where to? ")
+        player_input = input("Enter a direction or an action: ")
 
-        try:
-            direction = str(direction)
-        except ValueError:
-            print("Please enter a cardinal direction.")    
-            continue
-        if direction == 'n':
+        if player_input == 'get items':
+            new_player.items = room['foyer'].items + new_player.items
+            print(new_player)
+            player_input = input("Enter a direction or an action: ")  
+
+        if player_input == 'n':
             new_player.current_room = 'overlook'
             print(new_player)
             print(room['foyer'].n_to)
-        elif direction == 's':
+        elif player_input == 's':
             new_player.current_room = 'outside'
             print(new_player)
             print(room['foyer'].s_to) 
-        elif direction == 'e':
+        elif player_input == 'e':
             new_player.current_room = 'narrow'
             print(new_player)
             print(room['foyer'].e_to)        
-        elif direction == 'q':
+        elif player_input == 'q':
             break
         else:    
             print("You hit a wall.") 
 
-    while direction == 'n': 
-        direction = input("Where to? ")
+        player_input = input("Enter a direction or an action: ")
 
-        try:
-            direction = str(direction)
-        except ValueError:
-            print("Please enter a cardinal direction.")    
-            continue
-        if direction == 's':
-            new_player.current_room = 'foyer'
+        if player_input == 'get items':
+            new_player.items = room['narrow'].items + new_player.items
             print(new_player)
-            print(room['overlook'].s_to)
-        elif direction == 'q':
-            break
-        else:    
-            print("You hit a wall.")  
+            player_input = input("Enter a direction or an action: ")  
+        
 
-    while direction == 'e': 
-        direction = input("Where to? ")
+        if player_input == 'e':
 
-        try:
-            direction = str(direction)
-        except ValueError:
-            print("Please enter a cardinal direction.")    
-            continue
-        if direction == 'w':
+            if player_input == 's':
+                new_player.current_room = 'foyer'
+                print(new_player)
+                print(room['overlook'].s_to)
+            elif player_input == 'q':
+                break
+            else:    
+                print("You hit a wall.")  
+
+        if player_input == 'w':
             new_player.current_room = 'foyer'
             print(new_player)
             print(room['narrow'].w_to)
-        elif direction == 'n':
+        elif player_input == 'n':
             new_player.current_room = 'treasure'
             print(new_player)
-            print(room['narrow'].n_to)     
-        elif direction == 'q':
+            print(room['narrow'].n_to)
+            break     
+        elif player_input == 'q':
             break
         else:    
             print("You hit a wall.")                       
@@ -135,7 +135,7 @@ if __name__ == '__main__':
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
 #
-# If the user enters a cardinal direction, attempt to move to the room there.
+# If the user enters a cardinal player_input, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
