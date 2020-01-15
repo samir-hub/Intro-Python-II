@@ -38,10 +38,59 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+def adv_game():
+    print("Enter any cardinal direction to navigate! (n,s,e,w)")
+
 # Make a new player object that is currently in the 'outside' room.
-new_player = Player("Samir", "outside")
-print(new_player)
+    new_player = Player("Samir", "outside")
+    direction = 's'
+    print(new_player)
+    print(room['outside'])
 # Write a loop that:
+    while direction == 's': 
+        direction = input("Where to? ")
+
+        try:
+            direction = str(direction)
+        except ValueError:
+            print("Please enter a cardinal direction.")    
+            continue
+        if direction == 'n':
+            new_player = Player("Samir", "foyer")
+            print(new_player)
+            print(room['outside'].n_to)
+        elif direction == 'q':
+            break
+        else:    
+            print("You hit a wall.")  
+
+    while direction == 'n':
+        direction = input("Where to? ")
+
+        try:
+            direction = str(direction)
+        except ValueError:
+            print("Please enter a cardinal direction.")    
+            continue
+        if direction == 'n':
+            new_player = Player("Samir", "overlook")
+            print(new_player)
+            print(room['foyer'].n_to)
+        elif direction == 's':
+            new_player = Player("Samir", "outside")
+            print(new_player)
+            print(room['foyer'].s_to) 
+        elif direction == 'e':
+            new_player = Player("Samir", "narrow")
+            print(new_player)
+            print(room['foyer'].e_to)        
+        elif direction == 'q':
+            break
+        else:    
+            print("You hit a wall.")        
+
+if __name__ == '__main__':
+    adv_game()              
 #
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
