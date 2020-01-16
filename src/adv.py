@@ -3,9 +3,9 @@ from player import Player
 from item import Item
 
 outside_items = [Item('pen', 'tool to write')]
-foyer_items = [Item('shovel', 'a tool to dig'), Item('wheelbarrow', 'a tool to move large objects')]
+foyer_items = [Item('shovel', 'a tool to dig')]
 overlook_items = [Item('phone', 'a tool to communicate')]
-narrow_items = [Item('hammer', 'a tool to build'), Item('flashlight', 'a tool to improve visibility')]
+narrow_items = [Item('hammer', 'a tool to build')]
 
 # Declare all the rooms
 
@@ -56,16 +56,24 @@ def adv_game():
     while True: 
         player_input = input("Enter a direction or an action: ")
  
-        if player_input == 'get items':
-            new_player.items = room['outside'].items
+        if player_input == 'get item':
+            new_player.items = room[new_player.current_room].items
             print(new_player)
             outside_items[0].on_take()
             player_input = input("Enter a direction or an action: ")
+
+        if player_input == 'drop item':
+            outside_items[0].on_drop()
+            player_input = input("Enter a direction or an action: ")   
+
+        if player_input == 'i':
+            print(new_player.items)    
+            player_input = input("Enter a direction or an action: ")  
            
         if player_input == 'n':
-            new_player.current_room = 'foyer'
-            print(new_player)
-            print(room['outside'].n_to)
+            if hasattr(room[new_player.current_room], 'n_to'): 
+                new_player.current_room = room[new_player.current_room].n_to
+                print(new_player.current_room)
         elif player_input == 'q':
             break
         else:    
@@ -73,23 +81,50 @@ def adv_game():
 
         player_input = input("Enter a direction or an action: ")
 
-        if player_input == 'get items':
+        if player_input == 'get item':
             new_player.items = room['foyer'].items + new_player.items
             print(new_player)
+            foyer_items[0].on_take()
             player_input = input("Enter a direction or an action: ")  
+
+        if player_input == 'drop item':
+            foyer_items[0].on_drop()
+            player_input = input("Enter a direction or an action: ")     
+
+        if player_input == 'i':
+            print(new_player.items)    
+            player_input = input("Enter a direction or an action: ")      
 
         if player_input == 'n':
             new_player.current_room = 'overlook'
             print(new_player)
             print(room['foyer'].n_to)
+            player_input = input("Enter a direction or an action: ")
+            if player_input == 'get item':
+                new_player.items = room['overlook'].items + new_player.items
+                print(new_player)
+                overlook_items[0].on_take()
         elif player_input == 's':
             new_player.current_room = 'outside'
             print(new_player)
-            print(room['foyer'].s_to) 
+            print(room['foyer'].s_to)
+            player_input = input("Enter a direction or an action: ")
+            if player_input == 'get item':
+                new_player.items = room['outside'].items + new_player.items
+                print(new_player)
+                outside_items[0].on_take() 
         elif player_input == 'e':
             new_player.current_room = 'narrow'
             print(new_player)
-            print(room['foyer'].e_to)        
+            print(room['foyer'].e_to)
+            player_input = input("Enter a direction or an action: ")
+            if player_input == 'get item':
+                new_player.items = room['narrow'].items + new_player.items
+                print(new_player)
+                narrow_items[0].on_take()  
+            if player_input == 'drop item':
+                narrow_items[0].on_drop()
+                player_input = input("Enter a direction or an action: ")           
         elif player_input == 'q':
             break
         else:    
@@ -97,11 +132,17 @@ def adv_game():
 
         player_input = input("Enter a direction or an action: ")
 
-        if player_input == 'get items':
+        if player_input == 'get item':
             new_player.items = room['narrow'].items + new_player.items
             print(new_player)
             player_input = input("Enter a direction or an action: ")  
-        
+        if player_input == 'drop item':
+            narrow_items[0].on_drop()
+            player_input = input("Enter a direction or an action: ")  
+
+        if player_input == 'i':
+            print(new_player.items)    
+            player_input = input("Enter a direction or an action: ")              
 
         if player_input == 'e':
 

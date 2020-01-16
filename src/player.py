@@ -5,6 +5,6 @@ class Player():
     def __init__(self, name, current_room, items=[]):
         self.name = name
         self.current_room = current_room
-        self.items = items
+        self.items = items    
     def __str__(self):
-        return f'Current room: {self.current_room}'
+        return f'{self.current_room}'

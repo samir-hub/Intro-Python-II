@@ -11,5 +11,5 @@ class Room():
         self.w_to = w_to
         self.items = items
     def __str__(self):
-        return f'Description: {self.description} \n Tools in this room: {self.items}'   
+        return f'Room Name: {self.name} \nDescription: {self.description} \nTools in this room: {self.items}'   
 

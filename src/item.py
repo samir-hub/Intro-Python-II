@@ -5,6 +5,8 @@ class Item():
         self.description = description
     def on_take(self):
         print(f'You have picked up {self.name}')
+    def on_drop(self):
+        print(f'You have dropped {self.name}')    
     def __repr__(self):
         return f'{self.name}'
 
